@@ -1,37 +1,72 @@
 const dotenv = require('dotenv');
 dotenv.config();
+
+
 // Require the Aylien npm package
-var aylien = require("aylien_textapi");
+var AYLIENTextAPI = require("aylien_textapi");
+// const AYLIENTextAPIResponse = require('./aylienAPI.js')
 
 // set aylien API credentials
-// NOTICE that textapi is the name I used, but it is arbitrary.
-// You could call it aylienapi, nlp, or anything else, 
-//   just make sure to make that change universally!
-var textapi = new aylien({
+var textapi = new AYLIENTextAPI({
     application_id: process.env.API_ID,
     application_key: process.env.API_KEY
-    });
+});
+console.log(`Your API key is ${process.env.API_KEY}`);
 
 var path = require('path')
+var filename = path.basename('../dist/index.html')
+console.log(filename)
+
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
 
 const app = express()
 
-app.use(express.static('dist'))
+// Initialize the main project folder
+app.use(express.static('dist'));
+// Parse request bodies as JSON
+// app.use(express.json());
+
+// Cors for cross origin allowance
+const cors = require('cors');
+app.use(cors());
+
+// Middleware
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true}))
+
+// designates what port the app will listen to for incoming requests
+const port = 8080;
+app.listen(port, function () {
+    console.log(`Example app listening on port ${port}!`)
+})
 
 console.log(__dirname)
 
-app.get('/', function (req, res) {
-    res.sendFile('dist/index.html')
-})
+// POST ROUTE
+app.post('/classify', addData);
 
-// designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
-})
+function sendData(req, res){
+    res.send(projectData)
+}
 
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-})
+function addData(req, res){
+    if (!req.body.url) {
+        res.status(400).end();
+        return;
+    }
+
+    textapi.classify(
+        {url: req.body.url},
+        function(error, response) {
+            if (error) {
+                console.error("Something bad has happened", error);
+                res.status(500).end();
+                return;
+            }
+            res.json(response);
+            console.log(response)
+        }
+    );
+}
 
