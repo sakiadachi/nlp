@@ -25,7 +25,7 @@ module.exports = {
                 loader: "babel-loader"
             },
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.scss$/,
                 use: [
                   // Creates `style` nodes from JS strings
                   'style-loader',

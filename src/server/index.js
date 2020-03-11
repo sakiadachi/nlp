@@ -3,8 +3,7 @@ dotenv.config();
 
 
 // Require the Aylien npm package
-var AYLIENTextAPI = require("aylien_textapi");
-// const AYLIENTextAPIResponse = require('./aylienAPI.js')
+var AYLIENTextAPI = require("aylien_textapi")
 
 // set aylien API credentials
 var textapi = new AYLIENTextAPI({
@@ -22,9 +21,7 @@ const express = require('express')
 const app = express()
 
 // Initialize the main project folder
-app.use(express.static('dist'));
-// Parse request bodies as JSON
-// app.use(express.json());
+app.use(express.static('dist'))
 
 // Cors for cross origin allowance
 const cors = require('cors');
@@ -33,12 +30,14 @@ app.use(cors());
 // Middleware
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
 // designates what port the app will listen to for incoming requests
 const port = 8080;
-app.listen(port, function () {
-    console.log(`Example app listening on port ${port}!`)
+app.listen(port, function() {
+    console.log(`App listening on port ${port}!`)
 })
 
 console.log(__dirname)
@@ -46,18 +45,28 @@ console.log(__dirname)
 // POST ROUTE
 app.post('/classify', addData);
 
-function sendData(req, res){
+function sendData(req, res) {
     res.send(projectData)
 }
 
-function addData(req, res){
-    if (!req.body.url) {
+
+/*
+ checkBodyUrl({}) == false
+ checkBodyUrl({url: "hello"}) == true
+ */
+function checkBodyUrl(body) {
+    return body.url !== undefined;
+}
+
+function addData(req, res) {
+    if (!checkBodyUrl(req.body)) {
         res.status(400).end();
         return;
     }
 
-    textapi.classify(
-        {url: req.body.url},
+    textapi.classify({
+            url: req.body.url
+        },
         function(error, response) {
             if (error) {
                 console.error("Something bad has happened", error);
@@ -68,5 +77,8 @@ function addData(req, res){
             console.log(response)
         }
     );
-}
+};
 
+module.exports = {
+    checkBodyUrl
+};
