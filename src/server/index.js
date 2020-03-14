@@ -36,6 +36,9 @@ app.use(bodyParser.urlencoded({
 
 // designates what port the app will listen to for incoming requests
 const port = 8080;
+
+// if we are inside a test, this shouldn't run
+// TODO only run when not testing
 app.listen(port, function() {
     console.log(`App listening on port ${port}!`)
 })

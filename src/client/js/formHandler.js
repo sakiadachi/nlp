@@ -1,3 +1,5 @@
+// import { response } from "express";
+
 function createFetchOptions(formText) {
     return {
         method: "POST",
@@ -10,6 +12,7 @@ function createFetchOptions(formText) {
         }
     }
 };
+
 function handleSubmit(event) {
     event.preventDefault()
 
@@ -24,6 +27,11 @@ function handleSubmit(event) {
             console.log("hello", categories);
             document.getElementById("results").innerHTML = categories;
         })
+        // .catch(function (error) {
+        //     console.log(error)
+        //     document.getElementById("results").innerHTML  = "Error occured.";
+        // });
+        
 };
 
 export {
