@@ -3,6 +3,7 @@ This application uses Aylien NLP service to determine various attributes of arti
 
 ## Getting Started
 This app require to install node and npm on your system.
+Start the application server by entering "npm start" to your terminal.
 
 ## Development
 Commands to run this application.
