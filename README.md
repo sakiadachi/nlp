@@ -8,10 +8,10 @@ This app require to install node and npm on your system.
 Commands to run this application.
 
 -development
-npm run build-dev
+"npm run build-dev"
 
--production
-npm run build-prod
+production
+"npm run build-prod"
 
 ## Author
 Saki Adachi
