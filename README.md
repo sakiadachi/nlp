@@ -7,10 +7,10 @@ This app require to install node and npm on your system.
 ## Development
 Commands to run this application.
 
--development
+・development
 "npm run build-dev"
 
-production
+・production
 "npm run build-prod"
 
 ## Author
