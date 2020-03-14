@@ -1,5 +1,3 @@
-// import { response } from "express";
-
 function createFetchOptions(formText) {
     return {
         method: "POST",
@@ -24,13 +22,17 @@ function handleSubmit(event) {
         })
         .then(content => {
             const categories = content.categories.map(a => a.label).join(", ");
-            console.log("hello", categories);
-            document.getElementById("results").innerHTML = categories;
+            console.log(categories);
+            document.getElementById("results").innerHTML = 'Label: ' +categories;
+            
+            var div = document.createElement("div");
+            div.innerHTML = 'Confidence: ' + content.categories.map(b => b.confidence).join(", ");
+            document.getElementById("results").appendChild(div);
         })
-        // .catch(function (error) {
-        //     console.log(error)
-        //     document.getElementById("results").innerHTML  = "Error occured.";
-        // });
+        .catch(function (error) {
+            console.log(error)
+            document.getElementById("results").innerHTML  = "Error occured.";
+        });
         
 };
 
